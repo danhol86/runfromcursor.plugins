@@ -54,7 +54,6 @@ namespace LinqPad1
 
                 errorc.MyLabel.Text = "Error - " + e.ToString();
 
-
                 string result = ConvertUserControlToXamlString(errorc);
                 return result;
             }
@@ -68,7 +67,9 @@ namespace LinqPad1
 
             GitTest(myText, dte); // Assuming GitTest is a synchronous method
 
-            var ucontrol = new Done();
+            var ucontrol = new UserControl1();
+
+            ucontrol.MyMessage.Visibility = Visibility.Visible;
             ucontrol.MyLabel.Text = "Commited - " + DateTime.Now.ToString();
 
             string result = ConvertUserControlToXamlString(ucontrol);
