@@ -67,6 +67,7 @@ namespace LinqPad1
             var _solutionDirectory = System.IO.Path.GetDirectoryName(fname);
 
 
+
             ExecuteGitCommand("add .", _solutionDirectory);
             ExecuteGitCommand("commit -m \"Auto commit\"", _solutionDirectory);
             ExecuteGitCommand("push", _solutionDirectory);
