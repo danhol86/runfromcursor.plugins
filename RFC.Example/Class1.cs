@@ -149,6 +149,7 @@ namespace LinqPad1
             IEnumMoniker monikerEnumerator;
             IMoniker[] monikers = new IMoniker[1];
 
+
             IBindCtx bindCtx;
             Marshal.ThrowExceptionForHR(CreateBindCtx(reserved: 0, ppbc: out bindCtx));
 
