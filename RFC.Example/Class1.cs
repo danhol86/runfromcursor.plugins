@@ -79,15 +79,6 @@ namespace LinqPad1
             using (System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo))
             {
                 process.WaitForExit();
-                string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
-
-                // Handle the output/error as needed
-                Console.WriteLine(output);
-                if (!string.IsNullOrEmpty(error))
-                {
-                    Console.WriteLine("Error: " + error);
-                }
             }
         }
         public static string ConvertUserControlToXamlString(UserControl userControl)
