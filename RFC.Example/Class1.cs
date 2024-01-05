@@ -33,28 +33,26 @@ namespace LinqPad1
         //Name of plugin
         public static string GetControlName()   
         {
-            return "Test Plugin";
+            return "Test Plugin 2";
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
         public static string Event(string myrot, EventData edata)
         {
-            MessageBox.Show(myrot);
-
             var dte = DteFinder.GetAllDtes(myrot);
-
             var mainproj = dte.Solution.Projects.Cast<Project>().FirstOrDefault().Name;
-
-            MessageBox.Show("Main Project - " + mainproj);
-
             var fullresp = JsonConvert.SerializeObject(edata);
 
-            MessageBox.Show(fullresp);
+            var message = "";
+            message += "Button Name - " + edata.ButtonName + "\n";
+            message += "Rot - " + myrot + "\n";
+            message += "Main Project - " + mainproj + "\n";
+            message += "RESP - " + fullresp + "\n";
 
             var ucontrol = new Done();
 
-            ucontrol.MyLable.Text = "You clicked button - " + edata.ButtonName;
-            
+            ucontrol.MyLable.Text = message;
+
             return ConvertUserControlToXamlString(ucontrol);
         }
 

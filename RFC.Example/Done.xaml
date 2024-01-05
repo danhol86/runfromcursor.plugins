@@ -9,10 +9,9 @@
     <Grid>
 
         <StackPanel>
-            <TextBlock Name="MyLable" Background="Red" Margin="10">Automation Completed</TextBlock>
-
-            <TextBox Name="MyTextBox">This is a textblock</TextBox>
-            <Button Name="MyName">Im a button</Button>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <TextBlock Name="MyLable" Background="Red" Margin="10" TextWrapping="Wrap">Automation Completed</TextBlock>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </UserControl>
