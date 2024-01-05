@@ -7,9 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel>
-            <TextBox Name="MyTextBox">.</TextBox>
-            <Button Name="MyName">Commit and Sync</Button>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="True">
+            <Button Name="MyButton" DockPanel.Dock="Right" Width="100">Commit and Sync</Button>
+            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch" Text="." />
+        </DockPanel>
     </Grid>
 </UserControl>
