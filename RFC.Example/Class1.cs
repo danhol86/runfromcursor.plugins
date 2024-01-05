@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System.Diagnostics;
 using System.Threading;
 using EnvDTE80;
+using System.Xml.Linq;
 
 namespace LinqPad1
 {
@@ -43,6 +44,24 @@ namespace LinqPad1
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
         public static string Event(string myrot, EventData edata)
         {
+            
+            try
+            {
+                return Run(myrot, edata);
+            } catch (Exception e)
+            {
+                var errorc = new UCError();
+
+                errorc.MyLabel.Text = "Error - " + e.ToString();
+
+
+                string result = ConvertUserControlToXamlString(errorc);
+                return result;
+            }
+        }
+
+        static string Run(string myrot, EventData edata)
+        {
             var myText = edata.FieldValues["MyTextBox"];
 
             var dte = DteFinder.GetAllDtes(myrot);
@@ -54,7 +73,6 @@ namespace LinqPad1
 
             string result = ConvertUserControlToXamlString(ucontrol);
             return result;
-
         }
 
         static void GitTest(string commitm, DTE dte)
