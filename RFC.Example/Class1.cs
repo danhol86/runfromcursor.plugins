@@ -139,6 +139,7 @@ namespace LinqPad1
         }
     }
 
+
     public static class DteFinder
     {
         public static DTE GetAllDtes(string RotName)
