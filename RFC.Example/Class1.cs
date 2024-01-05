@@ -20,6 +20,7 @@ using EnvDTE80;
 using System.Xml.Linq;
 using System.IO;
 
+
 namespace LinqPad1
 {
     public class EventData
