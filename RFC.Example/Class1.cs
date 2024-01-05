@@ -37,7 +37,7 @@ namespace LinqPad1
         //Name of plugin
         public static string GetControlName()   
         {
-            return "Test Plugin 2";
+            return "Simple Commit";
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
@@ -50,7 +50,7 @@ namespace LinqPad1
             GitTest(myText, dte); // Assuming GitTest is a synchronous method
 
             var ucontrol = new Done();
-            ucontrol.MyLabel.Text = "YAY";
+            ucontrol.MyLabel.Text = "Commited - " + DateTime.Now.ToString();
 
             string result = ConvertUserControlToXamlString(ucontrol);
             return result;
