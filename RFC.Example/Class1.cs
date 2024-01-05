@@ -15,6 +15,7 @@ using System.Xml;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Diagnostics;
+using System.Threading;
 
 namespace LinqPad1
 {
@@ -39,17 +40,35 @@ namespace LinqPad1
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
-        public static string Event(string myrot, EventData edata)
+        public static Task<string> Event(string myrot, EventData edata)
         {
-            var dte = DteFinder.GetAllDtes(myrot);
+            var tcs = new TaskCompletionSource<string>();
 
-            GitTest(dte);
+            System.Threading.Thread thread = new System.Threading.Thread(() =>
+            {
+                try
+                {
+                    var dte = DteFinder.GetAllDtes(myrot);
 
-            var ucontrol = new Done();
+                    GitTest(dte); // Assuming GitTest is a synchronous method
 
-            ucontrol.MyLable.Text = "Done";
+                    var ucontrol = new Done();
+                    ucontrol.MyLable.Text = "Done";
 
-            return ConvertUserControlToXamlString(ucontrol);
+                    string result = ConvertUserControlToXamlString(ucontrol);
+
+                    tcs.SetResult(result);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            });
+
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+
+            return tcs.Task;
         }
 
         static void GitTest(DTE dte)
