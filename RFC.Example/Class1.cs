@@ -43,9 +43,11 @@ namespace LinqPad1
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
         public static string Event(string myrot, EventData edata)
         {
+            var myText = edata.FieldValues["MyTextBox"];
+
             var dte = DteFinder.GetAllDtes(myrot);
 
-            GitTest(dte); // Assuming GitTest is a synchronous method
+            GitTest(myText, dte); // Assuming GitTest is a synchronous method
 
             var ucontrol = new Done();
             ucontrol.MyLable.Text = "Done";
@@ -55,12 +57,12 @@ namespace LinqPad1
 
         }
 
-        static void GitTest(DTE dte)
+        static void GitTest(string commitm, DTE dte)
         {
             var _solutionDirectory = @"C:\Users\PC-1\Desktop\runfromcursor.plugins";
 
             ExecuteGitCommand("add .", _solutionDirectory);
-            ExecuteGitCommand("commit -m \"Auto commit\"", _solutionDirectory);
+            ExecuteGitCommand($"commit -m \"{commitm}\"", _solutionDirectory);
             ExecuteGitCommand("push", _solutionDirectory);
         }
 
