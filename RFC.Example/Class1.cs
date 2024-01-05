@@ -13,6 +13,8 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using EnvDTE;
+using Microsoft.VisualStudio.Shell.Interop;
+using System.Diagnostics;
 
 namespace LinqPad1
 {
@@ -61,11 +63,43 @@ namespace LinqPad1
 
         static void GitTest(DTE dte)
         {
-            dte.ExecuteCommand("Team.Git.Commit", "test");
-            dte.ExecuteCommand("Team.Git.Push");
-            dte.ExecuteCommand("Team.Git.Sync");
+            var fname = dte.Solution.FullName;
+            var _solutionDirectory = System.IO.Path.GetDirectoryName(fname);
+
+
+            ExecuteGitCommand("add .", _solutionDirectory);
+            ExecuteGitCommand("commit -m \"Auto commit\"", _solutionDirectory);
+            ExecuteGitCommand("push", _solutionDirectory);
         }
 
+
+        private static void ExecuteGitCommand(string command, string folder)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "git",
+                Arguments = command,
+                WorkingDirectory = folder,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo))
+            {
+                process.WaitForExit();
+                string output = process.StandardOutput.ReadToEnd();
+                string error = process.StandardError.ReadToEnd();
+
+                // Handle the output/error as needed
+                Console.WriteLine(output);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    Console.WriteLine("Error: " + error);
+                }
+            }
+        }
         public static string ConvertUserControlToXamlString(UserControl userControl)
         {
             StringBuilder sb = new StringBuilder();
