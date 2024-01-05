@@ -16,6 +16,7 @@ using EnvDTE;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Diagnostics;
 using System.Threading;
+using EnvDTE80;
 
 namespace LinqPad1
 {
@@ -40,43 +41,23 @@ namespace LinqPad1
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
-        public static Task<string> Event(string myrot, EventData edata)
+        public static string Event(string myrot, EventData edata)
         {
-            var tcs = new TaskCompletionSource<string>();
+            var dte = DteFinder.GetAllDtes(myrot);
 
-            System.Threading.Thread thread = new System.Threading.Thread(() =>
-            {
-                try
-                {
-                    var dte = DteFinder.GetAllDtes(myrot);
+            GitTest(dte); // Assuming GitTest is a synchronous method
 
-                    GitTest(dte); // Assuming GitTest is a synchronous method
+            var ucontrol = new Done();
+            ucontrol.MyLable.Text = "Done";
 
-                    var ucontrol = new Done();
-                    ucontrol.MyLable.Text = "Done";
+            string result = ConvertUserControlToXamlString(ucontrol);
+            return result;
 
-                    string result = ConvertUserControlToXamlString(ucontrol);
-
-                    tcs.SetResult(result);
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetException(ex);
-                }
-            });
-
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-
-            return tcs.Task;
         }
 
         static void GitTest(DTE dte)
         {
-            var fname = dte.Solution.FullName;
-            var _solutionDirectory = System.IO.Path.GetDirectoryName(fname);
-
-
+            var _solutionDirectory = @"C:\Users\PC-1\Desktop\runfromcursor.plugins";
 
             ExecuteGitCommand("add .", _solutionDirectory);
             ExecuteGitCommand("commit -m \"Auto commit\"", _solutionDirectory);
@@ -161,6 +142,9 @@ namespace LinqPad1
                     runningObjectTable.GetObject(monikers[0], out runningObjectVal);
 
                     DTE dte = (DTE)runningObjectVal;
+
+                    Marshal.ReleaseComObject(dte);
+
                     return dte;
                 }
             }
