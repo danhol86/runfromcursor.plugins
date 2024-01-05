@@ -9,6 +9,7 @@
         <RFCLaunchRunMain>true</RFCLaunchRunMain>
 	</PropertyGroup>
 
+
     <ItemGroup>
 	  <Compile Remove="Settings\**" />
 	  <EmbeddedResource Remove="Settings\**" />
