@@ -24,19 +24,28 @@ namespace LinqPad1
 
     public class MyPlugin
     {
+        //First screen xaml
         public static string GetXaml()
         {
             return ConvertUserControlToXamlString(new UserControl1());
         }
 
+        //Name of plugin
         public static string GetControlName()   
         {
-            return "Im a Plugin 2";
+            return "Im a Plugin 3";
         }
 
+        //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
         public static string Event(string myrot, EventData edata)
         {
+            MessageBox.Show(myrot);
+
             var dte = DteFinder.GetAllDtes(myrot);
+
+            var mainproj = dte.Solution.Projects.Cast<Project>().FirstOrDefault().Name;
+
+            MessageBox.Show("Main Project - " + mainproj);
 
             var fullresp = JsonConvert.SerializeObject(edata);
 
