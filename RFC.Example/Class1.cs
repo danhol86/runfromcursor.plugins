@@ -33,7 +33,7 @@ namespace LinqPad1
         //Name of plugin
         public static string GetControlName()   
         {
-            return "Im a Plugin 3";
+            return "Test Plugin";
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
