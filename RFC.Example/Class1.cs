@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Threading;
 using EnvDTE80;
 using System.Xml.Linq;
+using System.IO;
 
 namespace LinqPad1
 {
@@ -78,13 +79,29 @@ namespace LinqPad1
 
         static void GitTest(string commitm, DTE dte)
         {
-            var _solutionDirectory = @"C:\Users\PC-1\Desktop\runfromcursor.plugins";
+            string solutionPath = Path.GetDirectoryName(dte.Solution.FullName);
+            var _solutionDirectory = FindGitDirectory(solutionPath);
 
             ExecuteGitCommand("add .", _solutionDirectory);
             ExecuteGitCommand($"commit -m \"{commitm}\"", _solutionDirectory);
             ExecuteGitCommand("push", _solutionDirectory);
         }
 
+        static string FindGitDirectory(string directoryPath)
+        {
+            if (string.IsNullOrEmpty(directoryPath))
+            {
+                return null;
+            }
+
+            string gitPath = Path.Combine(directoryPath, ".git");
+            if (Directory.Exists(gitPath))
+            {
+                return directoryPath;
+            }
+
+            return FindGitDirectory(Directory.GetParent(directoryPath)?.FullName);
+        }
 
         private static void ExecuteGitCommand(string command, string folder)
         {
@@ -154,8 +171,6 @@ namespace LinqPad1
                     runningObjectTable.GetObject(monikers[0], out runningObjectVal);
 
                     DTE dte = (DTE)runningObjectVal;
-
-                    Marshal.ReleaseComObject(dte);
 
                     return dte;
                 }
