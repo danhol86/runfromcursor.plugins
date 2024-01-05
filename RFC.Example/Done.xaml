@@ -7,11 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                <TextBlock Name="MyLable" Background="Red" Margin="10" TextWrapping="Wrap">Automation Completed</TextBlock>
-            </ScrollViewer>
+        <StackPanel Grid.Row="0">
+            <TextBlock Name="MyLabel" Background="Red" Margin="10" TextWrapping="Wrap">Automation Completed</TextBlock>
         </StackPanel>
+
+        <DockPanel Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="True">
+            <Button Name="MyButton" DockPanel.Dock="Right" Width="100">Commit and Sync</Button>
+            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch"/>
+        </DockPanel>
     </Grid>
+
 </UserControl>

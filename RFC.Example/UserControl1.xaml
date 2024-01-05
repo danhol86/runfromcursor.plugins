@@ -8,8 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel>
-            <TextBox Name="MyTextBox">This is a textblock</TextBox>
-            <Button Name="MyName">Im a button</Button>
+            <TextBox Name="MyTextBox">.</TextBox>
+            <Button Name="MyName">Commit and Sync</Button>
         </StackPanel>
     </Grid>
 </UserControl>
