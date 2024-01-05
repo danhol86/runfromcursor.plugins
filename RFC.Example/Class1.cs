@@ -50,7 +50,7 @@ namespace LinqPad1
             GitTest(myText, dte); // Assuming GitTest is a synchronous method
 
             var ucontrol = new Done();
-            ucontrol.MyLabel.Text = "Done";
+            //ucontrol.MyLabel.Text = "Done";
 
             string result = ConvertUserControlToXamlString(ucontrol);
             return result;
