@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<OutputType>Library</OutputType>
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+		<ApplicationIcon />
+		<StartupObject />
+		<UseWPF>true</UseWPF>
+        <RFCLaunchRunMain>true</RFCLaunchRunMain>
+	</PropertyGroup>
+
+    <ItemGroup>
+	  <Compile Remove="Settings\**" />
+	  <EmbeddedResource Remove="Settings\**" />
+	  <None Remove="Settings\**" />
+	  <Page Remove="Settings\**" />
+    </ItemGroup>
+
+    <PropertyGroup Label="LinqPad">
+		<IsLinqPad>true</IsLinqPad>
+		<QueryName>Query58</QueryName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AA.DumpExtensions" Version="1.0.4371" />
+		<PackageReference Include="Costura.Fody" Version="5.7.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="EnvDTE" Version="17.8.37221" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="System.Windows.Forms" />
+	</ItemGroup>
+
+</Project>
