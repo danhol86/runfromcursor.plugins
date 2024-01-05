@@ -13,12 +13,12 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <TextBlock Name="MyLabel" Background="Red" Margin="10" TextWrapping="Wrap">Automation Completed</TextBlock>
+            <TextBlock Name="MyLabel" Background="DarkBlue" Margin="5">Automation Completed</TextBlock>
         </StackPanel>
 
         <DockPanel Grid.Row="1" HorizontalAlignment="Stretch" LastChildFill="True">
             <Button Name="MyButton" DockPanel.Dock="Right" Width="100">Commit and Sync</Button>
-            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch"/>
+            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch" Text="." />
         </DockPanel>
     </Grid>
 
