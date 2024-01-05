@@ -84,6 +84,7 @@ namespace LinqPad1
 
             ExecuteGitCommand("add .", _solutionDirectory);
             ExecuteGitCommand($"commit -m \"{commitm}\"", _solutionDirectory);
+            ExecuteGitCommand("pull", _solutionDirectory);
             ExecuteGitCommand("push", _solutionDirectory);
         }
 
