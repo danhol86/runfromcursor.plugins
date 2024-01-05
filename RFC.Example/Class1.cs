@@ -45,18 +45,9 @@ namespace LinqPad1
 
             GitTest(dte);
 
-            var mainproj = dte.Solution.Projects.Cast<Project>().FirstOrDefault().Name;
-            var fullresp = JsonConvert.SerializeObject(edata);
-
-            var message = "";
-            message += "Button Name - " + edata.ButtonName + "\n";
-            message += "Rot - " + myrot + "\n";
-            message += "Main Project - " + mainproj + "\n";
-            message += "RESP - " + fullresp + "\n";
-
             var ucontrol = new Done();
 
-            ucontrol.MyLable.Text = message;
+            ucontrol.MyLable.Text = "Done";
 
             return ConvertUserControlToXamlString(ucontrol);
         }
