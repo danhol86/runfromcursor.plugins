@@ -40,6 +40,9 @@ namespace LinqPad1
         public static string Event(string myrot, EventData edata)
         {
             var dte = DteFinder.GetAllDtes(myrot);
+
+            GitTest(dte);
+
             var mainproj = dte.Solution.Projects.Cast<Project>().FirstOrDefault().Name;
             var fullresp = JsonConvert.SerializeObject(edata);
 
@@ -54,6 +57,13 @@ namespace LinqPad1
             ucontrol.MyLable.Text = message;
 
             return ConvertUserControlToXamlString(ucontrol);
+        }
+
+        static void GitTest(DTE dte)
+        {
+            dte.ExecuteCommand("Team.Git.Commit", "test");
+            dte.ExecuteCommand("Team.Git.Push");
+            dte.ExecuteCommand("Team.Git.Sync");
         }
 
         public static string ConvertUserControlToXamlString(UserControl userControl)
