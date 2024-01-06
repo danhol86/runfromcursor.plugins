@@ -61,7 +61,7 @@ namespace LinqPad1
             {
                 var commitm = FieldValues["MyTextBox"];
 
-                GitPlugin.Run(commitm, dte);
+                //GitPlugin.Run(commitm, dte);
 
                 var ucontrol = new UserControl1();
 
