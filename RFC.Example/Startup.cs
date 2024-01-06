@@ -19,16 +19,11 @@ using System.Threading;
 using EnvDTE80;
 using System.Xml.Linq;
 using System.IO;
-
+using RFC.Example;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LinqPad1
 {
-    public class EventData
-    {
-        public string ButtonName { get; set; }
-        public Dictionary<string, string> FieldValues { get; set; }
-    }
-
     public class MyPlugin
     {
         //First screen xaml
@@ -40,17 +35,44 @@ namespace LinqPad1
         //Name of plugin
         public static string GetControlName()   
         {
-            return "Simple Commit";
+            return "Simple Commit 3";
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
-        public static string Event(string myrot, EventData edata)
+        public static string Event(string myrot, string ButtonName, string FieldValuesAsJson)
         {
-            
+            var FieldValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(FieldValuesAsJson); 
+
+            var dte = DteFinder.GetAllDtes(myrot);
+
+            return RunPlugin(dte, FieldValues);
+        }
+
+        public static string EventNative(DTE dte, string ButtonName, string FieldValuesAsJson)
+        {
+            var FieldValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(FieldValuesAsJson);
+
+            return RunPlugin(dte, FieldValues);
+        }
+
+        static string RunPlugin(DTE dte, Dictionary<string, string> FieldValues)
+        {
+            System.Diagnostics.Debugger.Break();
             try
             {
-                return Run(myrot, edata);
-            } catch (Exception e)
+                var commitm = FieldValues["MyTextBox"];
+
+                GitPlugin.Run(commitm, dte); // Assuming GitTest is a synchronous method
+
+                var ucontrol = new UserControl1();
+
+                ucontrol.MyMessage.Visibility = Visibility.Visible;
+                ucontrol.MyLabel.Text = "Commited - " + DateTime.Now.ToString();
+
+                string result = ConvertUserControlToXamlString(ucontrol);
+                return result;
+            }
+            catch (Exception e)
             {
                 var errorc = new UCError();
 
@@ -60,69 +82,7 @@ namespace LinqPad1
                 return result;
             }
         }
-
-        static string Run(string myrot, EventData edata)
-        {
-            var myText = edata.FieldValues["MyTextBox"];
-
-            var dte = DteFinder.GetAllDtes(myrot);
-
-            GitTest(myText, dte); // Assuming GitTest is a synchronous method
-
-            var ucontrol = new UserControl1();
-
-            ucontrol.MyMessage.Visibility = Visibility.Visible;
-            ucontrol.MyLabel.Text = "Commited - " + DateTime.Now.ToString();
-
-            string result = ConvertUserControlToXamlString(ucontrol);
-            return result;
-        }
-
-        static void GitTest(string commitm, DTE dte)
-        {
-            string solutionPath = Path.GetDirectoryName(dte.Solution.FullName);
-            var _solutionDirectory = FindGitDirectory(solutionPath);
-
-            ExecuteGitCommand("add .", _solutionDirectory);
-            ExecuteGitCommand($"commit -m \"{commitm}\"", _solutionDirectory);
-            ExecuteGitCommand("pull", _solutionDirectory);
-            ExecuteGitCommand("push", _solutionDirectory);
-        }
-
-        static string FindGitDirectory(string directoryPath)
-        {
-            if (string.IsNullOrEmpty(directoryPath))
-            {
-                return null;
-            }
-
-            string gitPath = Path.Combine(directoryPath, ".git");
-            if (Directory.Exists(gitPath))
-            {
-                return directoryPath;
-            }
-
-            return FindGitDirectory(Directory.GetParent(directoryPath)?.FullName);
-        }
-
-        private static void ExecuteGitCommand(string command, string folder)
-        {
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                FileName = "git",
-                Arguments = command,
-                WorkingDirectory = folder,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            };
-
-            using (System.Diagnostics.Process process = System.Diagnostics.Process.Start(startInfo))
-            {
-                process.WaitForExit();
-            }
-        }
+        
         public static string ConvertUserControlToXamlString(UserControl userControl)
         {
             StringBuilder sb = new StringBuilder();
