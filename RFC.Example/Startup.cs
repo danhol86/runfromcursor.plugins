@@ -35,7 +35,7 @@ namespace LinqPad1
         //Name of plugin
         public static string GetControlName()   
         {
-            return "Simple Commit 6";
+            return "Simple Commit 8";
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
@@ -61,7 +61,7 @@ namespace LinqPad1
             {
                 var commitm = FieldValues["MyTextBox"];
 
-                //GitPlugin.Run(commitm, dte);
+                GitPlugin.Run(commitm, dte);
 
                 var ucontrol = new UserControl1();
 
