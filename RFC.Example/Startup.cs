@@ -6,21 +6,12 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using EnvDTE;
-using Microsoft.VisualStudio.Shell.Interop;
-using System.Diagnostics;
-using System.Threading;
-using EnvDTE80;
-using System.Xml.Linq;
-using System.IO;
 using RFC.Example;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace LinqPad1
 {
