@@ -15,7 +15,7 @@
         
         <DockPanel Grid.Row="0" HorizontalAlignment="Stretch" LastChildFill="True">
             <Button Name="MyButton" DockPanel.Dock="Right" Width="100">Commit and Sync</Button>
-            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch" Text="." />
+            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch" Text="...." />
         </DockPanel>
 
         <StackPanel Grid.Row="1" Name="MyMessage" Visibility="Collapsed">
