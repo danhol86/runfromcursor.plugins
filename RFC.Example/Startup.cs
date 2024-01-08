@@ -46,6 +46,18 @@ namespace LinqPad1
             return RunPlugin(dte, FieldValues);
         }
 
+        public static string KeyBindNative(DTE dte)
+        {
+            return Helpers.ConvertUserControlToXamlString(new UserControl1());
+        }
+
+        public static string KeyBind(string myrot)
+        {
+            var dte = Helpers.GetAllDtes(myrot);
+
+            return Helpers.ConvertUserControlToXamlString(new UserControl1());
+        }
+
         static string RunPlugin(DTE dte, Dictionary<string, string> FieldValues)
         {
             try
