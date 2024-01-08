@@ -20,6 +20,7 @@ namespace LinqPad1
         //First screen xaml
         public static string GetXaml()
         {
+
             return Helpers.ConvertUserControlToXamlString(new UserControl1());
         }
 
