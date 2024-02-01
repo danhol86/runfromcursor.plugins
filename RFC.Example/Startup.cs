@@ -11,7 +11,11 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using EnvDTE;
+using System.Net;
+using System.Threading.Tasks;
+using System.Threading;
 using RFC.Example;
+using System.Data.SqlTypes;
 
 namespace LinqPad1
 {
@@ -27,7 +31,7 @@ namespace LinqPad1
         //Name of plugin
         public static string GetControlName()   
         {
-            return "Simple Commit 9";
+            return "Chat GPT";
         }
 
         //Deals with button clicks, and must return a new screen xaml. or null. which leaves as is
@@ -37,14 +41,14 @@ namespace LinqPad1
 
             var dte = Helpers.GetAllDtes(myrot);
 
-            return RunPlugin(dte, FieldValues);
+            return RunPlugin(dte, FieldValues, ButtonName);
         }
 
         public static string EventNative(DTE dte, string ButtonName, string FieldValuesAsJson)
         {
             var FieldValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(FieldValuesAsJson);
 
-            return RunPlugin(dte, FieldValues);
+            return RunPlugin(dte, FieldValues, ButtonName);
         }
 
         public static string KeyBindNative(DTE dte)
@@ -59,21 +63,61 @@ namespace LinqPad1
             return Helpers.ConvertUserControlToXamlString(new UserControl1());
         }
 
-        static string RunPlugin(DTE dte, Dictionary<string, string> FieldValues)
+        static void T()
+        {
+            var d = DoChat("What model are you?", "gpt-4", "");
+        }
+
+        public static string DoChat(string message, string model = null, string systemMessage = null)
         {
             try
             {
-                var commitm = FieldValues["MyTextBox"];
+                return Task.Run(() =>
+                {
+                    var myret = GPTAPI.SendMessage(message, systemMessage, model).GetAwaiter().GetResult(); 
+                    return myret;
+                }).Result;
+            } catch (Exception e)
+            {
+                return e.ToString();
+            }
+        }
 
-                GitPlugin.Run(commitm, dte);
-
+        static string RunPlugin(DTE dte, Dictionary<string, string> FieldValues, string ButtonName)
+        {
+            try
+            {
                 var ucontrol = new UserControl1();
+                var commitm = FieldValues["MyTextBox"];
+                var use4 = FieldValues["Use4"];
 
-                ucontrol.MyMessage.Visibility = Visibility.Visible;
-                ucontrol.MyLabel.Text = "Commited - " + DateTime.Now.ToString();
+                ucontrol.Use4.IsChecked = (use4.ToUpper() == "YES" || use4.ToUpper() == "TRUE" || use4.ToUpper() == "1");
 
-                string result = Helpers.ConvertUserControlToXamlString(ucontrol);
-                return result;
+                if (ButtonName == "Use4")
+                {
+                    string result1 = Helpers.ConvertUserControlToXamlString(ucontrol);
+                    return result1;
+
+                }
+                else
+                {
+                    ServicePointManager.Expect100Continue = true;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                    string model = null;
+                    if (ucontrol.Use4.IsChecked.Value)
+                    {
+                        model = "gpt-4";
+                    }
+
+                    var myresp = DoChat(commitm, model);
+
+                    ucontrol.MyMessage.Visibility = Visibility.Visible;
+                    ucontrol.MyLabel.Text = myresp;
+
+                    string result = Helpers.ConvertUserControlToXamlString(ucontrol);
+                    return result;
+                }
             }
             catch (Exception e)
             {

@@ -14,12 +14,14 @@
 
         
         <DockPanel Grid.Row="0" HorizontalAlignment="Stretch" LastChildFill="True">
-            <Button Name="MyButton" DockPanel.Dock="Right" Width="100">Commit and Sync</Button>
-            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch" Text="...." />
+            <Button Name="MyButton" DockPanel.Dock="Right" Width="100">Chat</Button>
+            <CheckBox Name="Use4" Width="50" IsChecked="True"  DockPanel.Dock="Left">GPT4</CheckBox>
+            <TextBox Name="MyTextBox" HorizontalAlignment="Stretch" Text="" />
+
         </DockPanel>
 
         <StackPanel Grid.Row="1" Name="MyMessage" Visibility="Collapsed">
-            <TextBlock Name="MyLabel" Background="DarkBlue" Margin="5">Automation Completed</TextBlock>
+            <TextBlock Name="MyLabel" Background="DarkBlue" Margin="5"></TextBlock>
         </StackPanel>
 
     </Grid>
